@@ -1,6 +1,6 @@
 package com.studyolle.studyolle.account;
 
-import com.studyolle.studyolle.ConsoleMailSender;
+import com.studyolle.studyolle.mail.ConsoleMailSender;
 import com.studyolle.studyolle.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
