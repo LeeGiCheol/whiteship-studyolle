@@ -1,4 +1,4 @@
-package com.studyolle.studyolle.account;
+package com.studyolle.account;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

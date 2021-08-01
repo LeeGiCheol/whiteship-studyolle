@@ -1,7 +1,7 @@
-package com.studyolle.studyolle.account;
+package com.studyolle.account;
 
-import com.studyolle.studyolle.domain.Account;
-import com.studyolle.studyolle.mail.ConsoleMailSender;
+import com.studyolle.domain.Account;
+import com.studyolle.mail.ConsoleMailSender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

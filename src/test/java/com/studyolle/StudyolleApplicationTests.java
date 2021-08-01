@@ -1,4 +1,4 @@
-package com.studyolle.studyolle;
+package com.studyolle;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

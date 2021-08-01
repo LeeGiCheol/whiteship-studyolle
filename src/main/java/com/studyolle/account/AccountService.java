@@ -1,7 +1,7 @@
-package com.studyolle.studyolle.account;
+package com.studyolle.account;
 
-import com.studyolle.studyolle.domain.Account;
-import com.studyolle.studyolle.mail.ConsoleMailSender;
+import com.studyolle.domain.Account;
+import com.studyolle.mail.ConsoleMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,7 +63,7 @@ public class AccountService {
 
     public void login(Account account) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                account.getNickname(),
+                new UserAccount(account),
                 account.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
 

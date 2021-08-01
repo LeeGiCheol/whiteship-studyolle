@@ -1,6 +1,6 @@
-package com.studyolle.studyolle.account;
+package com.studyolle.account;
 
-import com.studyolle.studyolle.domain.Account;
+import com.studyolle.domain.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

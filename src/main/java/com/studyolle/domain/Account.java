@@ -1,4 +1,4 @@
-package com.studyolle.studyolle.domain;
+package com.studyolle.domain;
 
 import lombok.*;
 
