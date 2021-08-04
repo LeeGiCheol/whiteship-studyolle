@@ -2,6 +2,7 @@ package com.studyolle.account;
 
 import com.studyolle.domain.Account;
 import com.studyolle.mail.ConsoleMailSender;
+import com.studyolle.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -100,4 +101,11 @@ public class AccountService implements UserDetailsService {
         login(account);
     }
 
+    public void updateProfile(Account account, Profile profile) {
+        account.setUrl(profile.getUrl());
+        account.setBio(profile.getBio());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        accountRepository.save(account);
+    }
 }
