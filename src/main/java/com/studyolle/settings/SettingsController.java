@@ -62,7 +62,7 @@ public class SettingsController {
         model.addAttribute(account);
         model.addAttribute(new PasswordForm());
 
-        return SETTINGS_PASSWORD_URL;
+        return SETTINGS_PASSWORD_VIEW_NAME;
     }
 
     @PostMapping(SETTINGS_PASSWORD_URL)
