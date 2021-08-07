@@ -177,4 +177,18 @@ public class SettingsController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping(SETTINGS_TAGS_URL + "/remove")
+    public ResponseEntity<Tag> removeTag(@CurrentUser Account account, @RequestBody TagForm tagForm) {
+        String title = tagForm.getTagTitle();
+        Tag tag = tagRepository.findByTitle(title);
+
+        if (tag == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        accountService.removeTag(account, tag);
+
+        return ResponseEntity.ok().build();
+    }
+
 }
