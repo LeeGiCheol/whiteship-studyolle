@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -139,6 +140,7 @@ public class AccountService implements UserDetailsService {
 
     public void addTag(Account account, Tag tag) {
         Optional<Account> byId = accountRepository.findById(account.getId());
-        byId.ifPresent(Account::getTags);
+        byId.ifPresent(a -> a.getTags().add(tag));
     }
+
 }
