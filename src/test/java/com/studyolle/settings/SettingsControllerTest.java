@@ -66,7 +66,6 @@ class SettingsControllerTest {
     }
 
 
-
     @Test
     @DisplayName("프로필 수정하기 - 입력값 정상 1번 방법")
     @WithUserDetails(value = "LEE", setupBefore = TestExecutionEvent.TEST_EXECUTION)
@@ -74,11 +73,11 @@ class SettingsControllerTest {
         String bio = "짧은 소개를 수정하는 경우";
 
         mockMvc.perform(post(SettingsController.SETTINGS_PROFILE_URL)
-                    .param("bio", bio)
-                    .with(csrf()))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(redirectedUrl(SettingsController.SETTINGS_PROFILE_URL))
-                    .andExpect(flash().attributeExists("message"))
+                .param("bio", bio)
+                .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_PROFILE_URL))
+                .andExpect(flash().attributeExists("message"))
         ;
 
         Account lee = accountService.findByNickname("LEE");
@@ -123,7 +122,6 @@ class SettingsControllerTest {
         Account lee = accountService.findByNickname("GICHEOL");
         assertNull(lee.getBio());
     }
-
 
 
     @Test
@@ -180,5 +178,51 @@ class SettingsControllerTest {
     }
 
 
+    @Test
+    @DisplayName("닉네임 수정화면")
+    @WithAccount("GICHEOL")
+    void updateNicknameForm() throws Exception {
+        mockMvc.perform(get(SettingsController.SETTINGS_ACCOUNT_URL)
+                    .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("nicknameForm"))
+                .andExpect(view().name(SettingsController.SETTINGS_ACCOUNT_VIEW_NAME))
+        ;
+    }
+
+    @Test
+    @DisplayName("닉네임 수정 - 입력값 정상")
+    @WithAccount("GICHEOL")
+    void updateNickname() throws Exception {
+        String nickname = "CHEEOLEE";
+
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                    .param("nickname", nickname)
+                    .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attributeExists("message"))
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_ACCOUNT_URL))
+        ;
+
+        Account byNickname = accountService.findByNickname(nickname);
+        assertEquals(nickname, byNickname.getNickname());
+    }
+
+    @Test
+    @DisplayName("닉네임 수정 - 입력값 에러 - 닉네임 길이 5자 이내")
+    @WithAccount("GICHEOL")
+    void updateNickname_fail() throws Exception {
+        String nickname = "LEE";
+
+        mockMvc.perform(post(SettingsController.SETTINGS_ACCOUNT_URL)
+                .param("nickname", nickname)
+                .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(view().name(SettingsController.SETTINGS_ACCOUNT_VIEW_NAME))
+        ;
+    }
 
 }
