@@ -1,14 +1,14 @@
 package com.studyolle.account;
 
 import com.studyolle.domain.Account;
+import com.studyolle.mail.EmailMessage;
+import com.studyolle.mail.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ class AccountControllerTest {
     AccountRepository accountRepository;
 
     @MockBean
-    JavaMailSender javaMailSender;
+    EmailService emailService;
 
 
     @Test
@@ -69,7 +69,7 @@ class AccountControllerTest {
         assertNotEquals(account.getPassword(), "12345678");
         assertNotNull(account.getEmailCheckToken());
         assertTrue(accountRepository.existsByEmail("leegicheolgc@gmail.com"));
-        then(javaMailSender).should().send(any(SimpleMailMessage.class));
+        then(emailService).should().sendEmail(any(EmailMessage.class));
     }
 
 
