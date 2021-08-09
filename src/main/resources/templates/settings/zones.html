@@ -2,15 +2,15 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments.html :: head" />
+<head th:replace="fragments.html :: head"></head>
 
 <body class="bg-light">
-<div th:replace="fragments.html :: main-nav" />
+<div th:replace="fragments.html :: main-nav"></div>
 
 <div class="container">
   <div class="row mt-5 justify-content-center">
     <div class="col-2">
-      <div th:replace="fragments.html :: settings-menu(currentMenu='zones')" />
+      <div th:replace="fragments.html :: settings-menu(currentMenu='zones')"></div>
     </div>
       <div class="col-8">
         <div class="row">
@@ -29,7 +29,7 @@
         </div>
       </div>
   </div>
-  <div th:replace="fragments.html :: footer" />
+  <div th:replace="fragments.html :: footer"></div>
 </div>
 <script src="/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 <script th:replace="fragments.html :: ajax-csrf-header"></script>

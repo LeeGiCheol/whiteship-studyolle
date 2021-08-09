@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments.html :: head" />
+<head th:replace="fragments.html :: head"></head>
 <body class="bg-light">
-    <div th:replace="fragments.html :: main-nav" />
+    <div th:replace="fragments.html :: main-nav"></div>
 
     <div class="container">
         <div class="py-5 text-center" th:if="${error}">
@@ -17,7 +17,7 @@
             <h2>이메일로 로그인 했습니다. <a th:href="@{/settings/password}">패스워드를 변경</a>하세요.</h2>
         </div>
 
-        <div th:replace="fragments.html :: footer" />
+        <div th:replace="fragments.html :: footer"></div>
     </div>
 </body>
 </html>
