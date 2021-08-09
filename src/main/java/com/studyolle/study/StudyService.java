@@ -19,4 +19,8 @@ public class StudyService {
 
         return newStudy;
     }
+
+    public Study findByPath(String path) {
+        return studyRepository.findByPath(path);
+    }
 }
