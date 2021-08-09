@@ -1,6 +1,6 @@
 package com.studyolle.study;
 
-import com.studyolle.account.CurrentUser;
+import com.studyolle.account.CurrentAccount;
 import com.studyolle.domain.Account;
 import com.studyolle.domain.Study;
 import com.studyolle.study.form.StudyForm;
@@ -35,7 +35,7 @@ public class StudyController {
 
 
     @GetMapping("/new-study")
-    public String newStudyForm(@CurrentUser Account account, Model model) {
+    public String newStudyForm(@CurrentAccount Account account, Model model) {
         model.addAttribute(account);
         model.addAttribute(new StudyForm());
 
@@ -43,7 +43,7 @@ public class StudyController {
     }
 
     @PostMapping("/new-study")
-    public String newStudySubmit(@CurrentUser Account account, @Valid StudyForm studyForm, Errors errors) {
+    public String newStudySubmit(@CurrentAccount Account account, @Valid StudyForm studyForm, Errors errors) {
         if (errors.hasErrors()) {
             return "study/form";
         }
