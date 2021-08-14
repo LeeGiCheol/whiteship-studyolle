@@ -153,7 +153,8 @@
 </script>
 
 <div th:fragment="study-banner" th:if="${study.useBanner}" class="row" id="study-logo">
-  <img th:src="${study.image}"/>
+  <img th:if="${study.image != null}" th:src="${study.image}"/>
+  <img th:if="${study.image == null}" th:src="@{/images/default_banner.png}"/>
 </div>
 
 
@@ -274,7 +275,7 @@
 
 <div th:fragment="study-settings-menu(currentMenu)" class="list-group">
   <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'description'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/description'}">소개</a>
-  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'image'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/image'}">배너 이미지</a>
+  <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'banner'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/banner'}">배너 이미지</a>
   <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'tags'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/tags'}">스터디 주제</a>
   <a class="list-group-item list-group-item-action" th:classappend="${currentMenu == 'zone'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/zone'}">활동 지역</a>
   <a class="list-group-item list-group-item-action list-group-item-danger" th:classappend="${currentMenu == 'study'} ? active" th:href="@{'/study/' + ${study.path} + '/settings/study'}">스터디</a>
@@ -300,5 +301,11 @@
     <span aria-hidden="true">x</span>
   </button>
 </div>
+
+<script th:fragment="tooltip" type="application/javascript">
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
 
 </html>
