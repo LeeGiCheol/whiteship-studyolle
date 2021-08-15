@@ -74,4 +74,20 @@ public class StudyController {
         return "study/members";
     }
 
+    @GetMapping("/study/{path}/join")
+    public String joinStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyService.findStudyWithMembersByPath(path);
+        studyService.addMember(study, account);
+
+        return "redirect:/study/" + study.getEncodePath() + "/members";
+    }
+
+    @GetMapping("/study/{path}/leave")
+    public String leaveStudy(@CurrentAccount Account account, @PathVariable String path) {
+        Study study = studyService.findStudyWithMembersByPath(path);
+        studyService.removeMember(study, account);
+
+        return "redirect:/study/" + study.getEncodePath() + "/members";
+    }
+
 }

@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,7 +64,7 @@ public class StudySettingController {
         studyService.updateStudyDescription(study, studyDescriptionForm);
         attributes.addFlashAttribute("message", "스터디 소개를 수정했습니다.");
 
-        return "redirect:/study/" + getPath(path) + "/settings/description";
+        return "redirect:/study/" + study.getEncodePath() + "/settings/description";
     }
 
     @GetMapping("/banner")
@@ -86,7 +84,7 @@ public class StudySettingController {
         studyService.updateStudyImage(study, image);
         attributes.addFlashAttribute("message", "스터디 이미지를 수정했습니다.");
 
-        return "redirect:/study/" + getPath(path) + "/settings/banner";
+        return "redirect:/study/" + study.getEncodePath() + "/settings/banner";
     }
 
     @PostMapping("/banner/enable")
@@ -94,7 +92,7 @@ public class StudySettingController {
         Study study = studyService.getStudyToUpdate(account, path);
         studyService.enableStudyBanner(study);
 
-        return "redirect:/study/" + getPath(path) + "/settings/banner";
+        return "redirect:/study/" + study.getEncodePath() + "/settings/banner";
     }
 
     @PostMapping("/banner/disable")
@@ -102,7 +100,7 @@ public class StudySettingController {
         Study study = studyService.getStudyToUpdate(account, path);
         studyService.disableStudyBanner(study);
 
-        return "redirect:/study/" + getPath(path) + "/settings/banner";
+        return "redirect:/study/" + study.getEncodePath() + "/settings/banner";
     }
     
     @GetMapping("/tags")
@@ -201,9 +199,114 @@ public class StudySettingController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/study")
+    public String studyForm(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdate(account, path);
+        model.addAttribute(account);
+        model.addAttribute(study);
 
-    private String getPath(String path) {
-        return URLEncoder.encode(path, StandardCharsets.UTF_8);
+        return "study/settings/study";
+    }
+
+    @PostMapping("/study/publish")
+    public String publishStudy(@CurrentAccount Account account, @PathVariable String path,
+                                RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.publish(study);
+        attributes.addFlashAttribute("message", "스터디를 공개했습니다.");
+
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/study/close")
+    public String closeStudy(@CurrentAccount Account account, @PathVariable String path,
+                               RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.close(study);
+        attributes.addFlashAttribute("message", "스터디를 종료했습니다.");
+
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/recruit/start")
+    public String startRecruit(@CurrentAccount Account account, @PathVariable String path,
+                              Model model, RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if (!study.canUpdateRecruiting()) {
+            attributes.addFlashAttribute("message", "1시간 안에 인원 모집 설정을 여러번 변경할 수 없습니다.");
+            return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+        }
+
+        studyService.startRecruit(study);
+        attributes.addFlashAttribute("message", "인원 모집을 시작합니다.");
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/recruit/stop")
+    public String stopRecruit(@CurrentAccount Account account, @PathVariable String path,
+                               Model model, RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if (!study.canUpdateRecruiting()) {
+            attributes.addFlashAttribute("message", "1시간 안에 인원 모집 설정을 여러번 변경할 수 없습니다.");
+            return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+        }
+
+        studyService.stopRecruit(study);
+        attributes.addFlashAttribute("message", "인원 모집을 종료합니다.");
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/study/path")
+    public String updateStudyPath(@CurrentAccount Account account, @PathVariable String path,
+                                  @RequestParam String newPath, Model model, RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if (!studyService.isValidPath(newPath)) {
+            model.addAttribute(account);
+            model.addAttribute(study);
+            model.addAttribute("studyPathError", "해당 스터디 경로는 사용할 수 없습니다. 다른 값을 입력하세요.");
+            return "study/settings/study";
+        }
+
+        studyService.updateStudyPath(study, newPath);
+        attributes.addFlashAttribute("message", "스터디 경로를 수정했습니다.");
+
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/study/title")
+    public String updateStudyTitle(@CurrentAccount Account account, @PathVariable String path,
+                                   @RequestParam String newTitle, Model model, RedirectAttributes attributes) {
+
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+
+        if (!studyService.isValidTitle(newTitle)) {
+            model.addAttribute(account);
+            model.addAttribute(study);
+            model.addAttribute("studyTitleError", "스터디 이름을 다시 입력하세요.");
+
+            return "study/settings/study";
+        }
+
+        studyService.updateStudyTitle(study, newTitle);
+        attributes.addFlashAttribute("message", "스터디 이름을 수정했습니다.");
+
+        return "redirect:/study/" + study.getEncodePath() + "/settings/study";
+    }
+
+    @PostMapping("/study/remove")
+    public String removeStudy(@CurrentAccount Account account, @PathVariable String path, Model model) {
+        Study study = studyService.getStudyToUpdateStatus(account, path);
+        studyService.remove(study);
+
+        return "redirect:/";
     }
 
 }

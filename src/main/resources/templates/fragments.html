@@ -153,8 +153,7 @@
 </script>
 
 <div th:fragment="study-banner" th:if="${study.useBanner}" class="row" id="study-logo">
-  <img th:if="${study.image != null}" th:src="${study.image}"/>
-  <img th:if="${study.image == null}" th:src="@{/images/default_banner.png}"/>
+  <img th:src="${study.image}"/>
 </div>
 
 
@@ -223,7 +222,7 @@
     <div class="col-10">
       <p>
         <span th:each="tag: ${study.tags}"
-              class="font-weight-light text-monospace badge badge-pill badge-info mr-3">
+              class="font-weight-light text-monospace badge badge-pill bg-info mr-3">
           <a th:href="@{'/search/tag/' + ${tag.title}}" class="text-decoration-none text-white">
             <i class="fa fa-tag"></i> <span th:text="${tag.title}">Tag</span>
           </a>
@@ -264,7 +263,7 @@
       <div class="media-body">
         <h5 class="mt-0 mb-1">
           <span th:text="${member.nickname}"></span>
-          <span th:if="${isManager}" class="badge badge-primary">관리자</span>
+          <span th:if="${isManager}" class="badge bg-primary">관리자</span>
         </h5>
         <span th:text="${member.bio}"></span>
       </div>
