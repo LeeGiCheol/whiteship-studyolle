@@ -19,7 +19,7 @@
                       th:object="${studyDescriptionForm}" method="POST" novalidate>
                     <div class="form-group">
                         <label for="shortDescription">짧은 소개</label>
-                        <textarea id="shortDescription" type="textarea" th:field="*{shortDescription}" class="form-control"
+                        <textarea id="shortDescription" type="textarea" th:field="*{shortDescription}" class="editor form-control"
                                   placeholder="스터디를 짧게 소개해 주세요." aria-describedby="shortDescriptionHelp" required maxlength="100">
                         </textarea>
                         <small id="shortDescriptionHelp" class="form-text text-muted">
