@@ -49,17 +49,6 @@
                     </div>
 
                     <div class="form-group col-md-3">
-                        <label for="startDateTime">모임 시작 일시</label>
-                        <input id="startDateTime" type="datetime-local" th:field="*{startDateTime}" class="form-control"
-                               aria-describedby="startDateTimeHelp" required>
-                        <small id="startDateTimeHelp" class="form-text text-muted">
-                            모임 시작 일시를 입력하세요. 상세한 모임 일정은 본문에 적어주세요.
-                        </small>
-                        <small class="invalid-feedback">모임 시작 일시를 입력하세요.</small>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('startDateTime')}" th:errors="*{startDateTime}">Error</small>
-                    </div>
-
-                    <div class="form-group col-md-3">
                         <label for="endEnrollmentDateTime">등록 마감 일시</label>
                         <input id="endEnrollmentDateTime" type="datetime-local" th:field="*{endEnrollmentDateTime}" class="form-control"
                                aria-describedby="endEnrollmentDateTimeHelp" required>
@@ -68,6 +57,17 @@
                         </small>
                         <small class="invalid-feedback">모임 신청 마감 일시를 입력하세요.</small>
                         <small class="form-text text-danger" th:if="${#fields.hasErrors('endEnrollmentDateTime')}" th:errors="*{endEnrollmentDateTime}">Error</small>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="startDateTime">모임 시작 일시</label>
+                        <input id="startDateTime" type="datetime-local" th:field="*{startDateTime}" class="form-control"
+                               aria-describedby="startDateTimeHelp" required>
+                        <small id="startDateTimeHelp" class="form-text text-muted">
+                            모임 시작 일시를 입력하세요. 상세한 모임 일정은 본문에 적어주세요.
+                        </small>
+                        <small class="invalid-feedback">모임 시작 일시를 입력하세요.</small>
+                        <small class="form-text text-danger" th:if="${#fields.hasErrors('startDateTime')}" th:errors="*{startDateTime}">Error</small>
                     </div>
 
                     <div class="form-group col-md-3">
