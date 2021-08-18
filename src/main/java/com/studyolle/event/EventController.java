@@ -62,4 +62,13 @@ public class EventController {
         return "redirect:/study/" + study.getEncodePath() + "/events/" + event.getId();
     }
 
+    @GetMapping("/events/{id}")
+    public String getEvent(@CurrentAccount Account account, @PathVariable String path, @PathVariable Long id, Model model) {
+        model.addAttribute(account);
+        model.addAttribute(eventService.findById(id).orElseThrow());
+        model.addAttribute(studyService.getStudy(path));
+
+        return "event/view";
+    }
+
 }

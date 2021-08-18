@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,10 +19,14 @@ public class EventService {
 
 
     public Event createEvent(Event event, Study study, Account account) {
-        event.setCreateBy(account);
+        event.setCreatedBy(account);
         event.setCreatedDateTime(LocalDateTime.now());
         event.setStudy(study);
 
         return eventRepository.save(event);
+    }
+
+    public Optional<Event> findById(Long id) {
+        return eventRepository.findById(id);
     }
 }
