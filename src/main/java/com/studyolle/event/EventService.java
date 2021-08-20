@@ -1,6 +1,7 @@
 package com.studyolle.event;
 
 import com.studyolle.domain.Account;
+import com.studyolle.domain.Enrollment;
 import com.studyolle.domain.Event;
 import com.studyolle.domain.Study;
 import com.studyolle.event.form.EventForm;
@@ -20,6 +21,7 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final ModelMapper modelMapper;
+    private final EnrollmentRepository enrollmentRepository;
 
 
     public Event createEvent(Event event, Study study, Account account) {
@@ -48,4 +50,29 @@ public class EventService {
         Event event = eventRepository.findById(id).orElseThrow();
         eventRepository.delete(event);
     }
+
+    public void newEnrollment(Account account, Long id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+
+        if (!enrollmentRepository.existsByEventAndAccount(event, account)) {
+            Enrollment enrollment = new Enrollment();
+            enrollment.setEnrolledAt(LocalDateTime.now());
+            enrollment.setAccepted(event.isAbleToAcceptWaitingEnrollment());
+            enrollment.setAccount(account);
+            event.addEnrollment(enrollment);
+            enrollmentRepository.save(enrollment);
+        }
+
+    }
+
+    public void cancelEnrollment(Account account, Long id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+
+        Enrollment enrollment = enrollmentRepository.findByEventAndAccount(event, account);
+        event.removeEnrollment(enrollment);
+        enrollmentRepository.delete(enrollment);
+
+        event.acceptNextWaitingEnrollment();
+    }
+
 }
