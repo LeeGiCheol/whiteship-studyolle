@@ -43,4 +43,9 @@ public class EventService {
 
         // TODO 모집 인원이 늘어났다면, 자동으로 추가된 인원의 참가 신청을 확정으로 변경해야 한다.
     }
+
+    public void deleteEvent(Long id) {
+        Event event = eventRepository.findById(id).orElseThrow();
+        eventRepository.delete(event);
+    }
 }
