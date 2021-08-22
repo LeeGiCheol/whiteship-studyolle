@@ -51,8 +51,8 @@ class EventControllerTest extends StudyControllerTest {
 
         Account may = createAccount("may");
         Account june = createAccount("june");
-        eventService.newEnrollment(may, event.getId());
-        eventService.newEnrollment(june, event.getId());
+        eventService.newEnrollment(may, event);
+        eventService.newEnrollment(june, event);
 
         mockMvc.perform(post("/study/" + study.getPath() + "/events/" + event.getId() + "/enroll")
                         .with(csrf()))
@@ -73,9 +73,9 @@ class EventControllerTest extends StudyControllerTest {
         Study study = createStudy("test-study", lee);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, lee);
 
-        eventService.newEnrollment(may, event.getId());
-        eventService.newEnrollment(lee, event.getId());
-        eventService.newEnrollment(cheeolee, event.getId());
+        eventService.newEnrollment(may, event);
+        eventService.newEnrollment(lee, event);
+        eventService.newEnrollment(cheeolee, event);
 
         isAccepted(may, event);
         isAccepted(lee, event);
@@ -101,9 +101,9 @@ class EventControllerTest extends StudyControllerTest {
         Study study = createStudy("test-study", lee);
         Event event = createEvent("test-event", EventType.FCFS, 2, study, lee);
 
-        eventService.newEnrollment(may, event.getId());
-        eventService.newEnrollment(lee, event.getId());
-        eventService.newEnrollment(cheeolee, event.getId());
+        eventService.newEnrollment(may, event);
+        eventService.newEnrollment(lee, event);
+        eventService.newEnrollment(cheeolee, event);
 
         isAccepted(may, event);
         isAccepted(lee, event);

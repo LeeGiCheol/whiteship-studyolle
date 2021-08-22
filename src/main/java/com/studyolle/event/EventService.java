@@ -46,14 +46,11 @@ public class EventService {
         // TODO 모집 인원이 늘어났다면, 자동으로 추가된 인원의 참가 신청을 확정으로 변경해야 한다.
     }
 
-    public void deleteEvent(Long id) {
-        Event event = eventRepository.findById(id).orElseThrow();
+    public void deleteEvent(Event event) {
         eventRepository.delete(event);
     }
 
-    public void newEnrollment(Account account, Long id) {
-        Event event = eventRepository.findById(id).orElseThrow();
-
+    public void newEnrollment(Account account, Event event) {
         if (!enrollmentRepository.existsByEventAndAccount(event, account)) {
             Enrollment enrollment = new Enrollment();
             enrollment.setEnrolledAt(LocalDateTime.now());
@@ -62,17 +59,34 @@ public class EventService {
             event.addEnrollment(enrollment);
             enrollmentRepository.save(enrollment);
         }
-
     }
 
-    public void cancelEnrollment(Account account, Long id) {
-        Event event = eventRepository.findById(id).orElseThrow();
-
+    public void cancelEnrollment(Account account, Event event) {
         Enrollment enrollment = enrollmentRepository.findByEventAndAccount(event, account);
-        event.removeEnrollment(enrollment);
-        enrollmentRepository.delete(enrollment);
 
-        event.acceptNextWaitingEnrollment();
+        if (!enrollment.isAttended()) {
+            event.removeEnrollment(enrollment);
+            enrollmentRepository.delete(enrollment);
+
+            event.acceptNextWaitingEnrollment();
+        }
     }
+
+    public void acceptEnrollment(Event event, Enrollment enrollment) {
+        event.accept(enrollment);
+    }
+
+    public void rejectEnrollment(Event event, Enrollment enrollment) {
+        event.reject(enrollment);
+    }
+
+    public void checkInEnrollment(Event event, Enrollment enrollment) {
+        enrollment.setAttended(true);
+    }
+
+    public void cancelCheckInEnrollment(Event event, Enrollment enrollment) {
+        enrollment.setAttended(false);
+    }
+
 
 }
