@@ -2,6 +2,7 @@ package com.studyolle.module.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studyolle.WithAccount;
+import com.studyolle.infra.MockMvcTest;
 import com.studyolle.module.account.form.SignUpForm;
 import com.studyolle.module.account.form.TagForm;
 import com.studyolle.module.account.form.ZoneForm;
@@ -14,14 +15,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import static com.studyolle.module.account.SettingsController.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,9 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Transactional
-@SpringBootTest
-@AutoConfigureMockMvc
+@MockMvcTest
 class SettingsControllerTest {
 
     @Autowired

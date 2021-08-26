@@ -1,8 +1,8 @@
 package com.studyolle.module.study;
 
 import com.studyolle.WithAccount;
-import com.studyolle.module.account.AccountRepository;
 import com.studyolle.module.account.Account;
+import com.studyolle.module.account.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,13 +26,13 @@ public
 class StudyControllerTest {
 
     @Autowired
-    protected MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @Autowired
-    protected StudyService studyService;
+    StudyService studyService;
 
     @Autowired
-    protected AccountRepository accountRepository;
+    AccountRepository accountRepository;
 
 
     @Test
@@ -110,21 +110,6 @@ class StudyControllerTest {
                 .andExpect(model().attributeExists("account"))
                 .andExpect(model().attributeExists("study"))
         ;
-    }
-
-    protected Study createStudy(String path, Account manager) {
-        Study study = new Study();
-        study.setPath(path);
-        studyService.createNewStudy(study, manager);
-        return study;
-    }
-
-    protected Account createAccount(String nickname) {
-        Account account = new Account();
-        account.setNickname(nickname);
-        account.setEmail(nickname + "@email.com");
-        accountRepository.save(account);
-        return account;
     }
 
 }
