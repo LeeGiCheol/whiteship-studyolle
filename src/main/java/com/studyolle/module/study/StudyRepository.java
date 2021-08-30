@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
 import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.LOAD;
 
-public interface StudyRepository extends JpaRepository<Study, Long> {
+public interface StudyRepository extends JpaRepository<Study, Long>, StudyRepositoryExtension {
 
     boolean existsByPath(String path);
 
@@ -32,4 +32,5 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
 
     @EntityGraph(attributePaths = { "managers", "members" }, type = FETCH)
     Study findStudyWithManagersAndMembersById(Long id);
+
 }
